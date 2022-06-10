@@ -79,7 +79,7 @@ const changeColor = (e: Event) => {
 };
 const change = (e: Event) => {
   if (e.target instanceof HTMLSelectElement) {
-    store.commit("setNewList", { size: e.target.value, color: color.value });
+    store.dispatch("setNewList", { size: e.target.value, color: color.value });
   }
 };
 console.log("size", size.value);

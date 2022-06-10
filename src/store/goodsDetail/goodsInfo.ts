@@ -63,13 +63,12 @@ export default {
       console.log("array push variants", payload);
     },
     setColorList(state: GoodsInfoState, size: string) {
-      state.colorList = state.variants[0].color;
       state.colorList = state.variants.filter((v: V) => v.size === size)[0][
         "color"
       ];
     },
     setNewList(
-      state: GoodsInfoState,
+      state,
       { size, color }: { size: string; color: string }
     ) {
       let imgs: string[] = [];
@@ -103,6 +102,18 @@ export default {
     },
   },
   actions: {
+
+    setNewList(context, { size, color }: { size: string; color: string }){
+      context.commit("setNewList",{ size, color })
+      context.commit("setColorList",size)
+      
+      const va = context.state.variants.filter(v => v.size === size);
+      const filteredColor = va.filter( v=> v === context.state.color);
+      if(!filteredColor){
+        context.commit("setColor",va[0].color[0])
+      }
+    },
+
     //asyncronous 非同期
     async setInfos({ commit }: { commit: Function }, payload: string) {
       const infos = await fetch(url + payload, { headers });
