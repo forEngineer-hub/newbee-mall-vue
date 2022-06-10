@@ -104,13 +104,16 @@ export default {
   actions: {
 
     setNewList(context, { size, color }: { size: string; color: string }){
-      context.commit("setNewList",{ size, color })
+     
       context.commit("setColorList",size)
       console.log('“”“”“”“”“”“”“”“”“”“”“”“”“”“');
       const va = context.state.variants.filter(v => v.size === size);
-      const filteredColor = va.filter( v=> v === context.state.color);
+      const filteredColor = va[0].color.filter( v=> v === context.state.color);
       if(filteredColor.length === 0){
         context.commit("setColor",va[0].color[0])
+        context.commit("setNewList",{ size, 'color': va[0].color[0] })
+      }else{
+        context.commit("setNewList",{ size, color})
       }
     },
 
